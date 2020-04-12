@@ -4,6 +4,12 @@ import login from '../components/login.vue'
 import firstpage from '../components/firstpage.vue'
 import register from '../components/register.vue'
 import personal from '../components/personal.vue'
+import home from '../components/home.vue'
+import vippage from '../components/vippage.vue'
+import friends from '../components/friends.vue'
+import active from '../components/active.vue'
+import helppage from '../components/helppage.vue'
+import showtime from '../components/showtime.vue'
 
 Vue.use(Router)
 
@@ -18,17 +24,50 @@ const router = new Router({
             component: login
         },
         {
-            path: '/firstpage',
-            component: firstpage
-        },
-        {
             path: '/register',
             component: register
         },
         {
-            path: '/personal',
-            component: personal
-        }
+            path: '/firstpage',
+            component: firstpage,
+            redirect: '/home',
+            children: [{
+                    path: '/home',
+                    component: home
+                },
+                {
+                    path: '/personal',
+                    component: personal
+                },
+                {
+                    path: '/vippage',
+                    component: vippage
+                },
+                {
+                    path: '/friends',
+                    component: friends
+                }, {
+                    path: '/active',
+                    component: active
+                }, {
+                    path: '/helppage',
+                    component: helppage
+                },
+                {
+                    path: '/showtime',
+                    component: showtime
+                }
+            ]
+        },
+        // {
+        //     path: '/home',
+        //     component: home
+        // },
+        // {
+        //     path: '/personal',
+        //     component: personal
+        // },
+
     ]
 })
 
@@ -42,7 +81,7 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/register') return next();
     const tokenStr = window.sessionStorage.getItem('token');
 
-    if (!tokenStr) {
+    if (!tokenStr && to.name.indexOf('login') < 0) { //字符串不含有login字符<0
         if (from.path === '/Register') {
             next();
             console.log("以允许");

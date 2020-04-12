@@ -132,6 +132,10 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'vue-demo01/dist/static')
     # os.path.join(BASE_DIR,'static')
 ]
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS=[
+#     os.path.join(BASE_DIR,'static')
+# ]
 
 # 允许所有域名跨域(优先选择)
 CORS_ORIGIN_ALLOW_ALL = True   # 这里可以设置白名单
@@ -144,3 +148,9 @@ EMAIL_HOST_USER = '1755457338@qq.com' # 你的 QQ 账号
 EMAIL_HOST_PASSWORD = 'nhctcsrayyiwbica'#授权码
 EMAIL_USE_TLS = True # 这里必须是 True，否则发送不成功
 EMAIL_FROM = '1755457338@qq.com'  # 你的 QQ 账号
+
+# 配置上传文件存放的路径
+MEDIA_URL = '/static/'
+# 指定的文件存放的根目录，是一个字符串路径
+#设置静态文件路径为主目录下的media文件夹
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static').replace("\\","/")    

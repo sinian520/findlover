@@ -79,6 +79,7 @@
                         } else {
                             this.$message.success("登陆成功！");
                             window.sessionStorage.setItem("token", res.token);
+                            window.sessionStorage.setItem("user", this.loginform.username);
                             this.$router.push('/firstpage');
                         }
                     }

@@ -1,5 +1,8 @@
 # coding=utf-8
 from django.db import models
+# model转字典
+from django.db.models.fields import DateTimeField
+from django.db.models.fields.related import ManyToManyField
 # Create your models here.
 
 # 用户表
@@ -11,20 +14,45 @@ class user(models.Model):
     live = models.CharField(max_length=50,verbose_name='所在地',null=True,blank=True)#所在地
     emile = models.CharField(max_length=20,verbose_name='邮箱')#邮箱
     birthday = models.DateField(verbose_name='生日',null=True,blank=True)#生日
-    age = models.IntegerField(verbose_name='年龄',null=True,blank=True)#年龄
+    age = models.CharField(verbose_name='年龄',null=True,blank=True,max_length=20)#年龄
     charater = models.CharField(max_length=500,verbose_name='自我介绍',null=True,blank=True)#自我介绍
     profession = models.CharField(max_length=20,verbose_name='职业',null=True,blank=True)#职业
-    photo = models.CharField(max_length=20,verbose_name='个人照片',null=True,blank=True)#个人照片
+    # 这里的upload_to是指定图片存储的文件夹名称，上传文件之后会自动创建
+    photo = models.ImageField(upload_to='img',null=True,blank=True)#个人照片
     WXchart = models.CharField(max_length=20,verbose_name='微信',null=True,blank=True)#微信号
-    friendcount = models.IntegerField(verbose_name='好友数',null=True,blank=True)#好友个数
+    friendcount = models.CharField(verbose_name='好友数',max_length=20,null=True,blank=True)#好友个数
     sex = models.CharField(max_length=12,verbose_name='性别')#性别
-    money = models.IntegerField(verbose_name='月薪',null=True,blank=True)#月薪
+    money = models.CharField(max_length=20,verbose_name='月薪',null=True,blank=True)#月薪
     education = models.CharField(max_length=12,verbose_name='学历',null=True,blank=True)#学历
     marriage = models.CharField(max_length=12,verbose_name='婚姻状况',null=True,blank=True)#婚姻状况
     status = models.BooleanField(max_length=20,verbose_name='在线状态')#在线状态
+    height = models.CharField(max_length=12,verbose_name='身高',null=True,blank=True)#身高
+    weight = models.CharField(max_length=12,verbose_name='体重',null=True,blank=True)#体重
 
     def __int__(self):
         return self.id
+
+    def to_dict(self, fields=None, exclude=None):
+        data = {}
+        for f in self._meta.concrete_fields + self._meta.many_to_many:
+            value = f.value_from_object(self)
+ 
+            if fields and f.name not in fields:
+                continue
+ 
+            if exclude and f.name in exclude:
+                continue
+ 
+            if isinstance(f, ManyToManyField):
+                value = [ i.id for i in value ] if self.pk else None
+ 
+            # if isinstance(f, DateTimeField):
+            #     value = value.strftime('%Y-%m-%d %H:%M:%S') if value else None
+ 
+            data[f.name] = value
+ 
+        return data
+    
 
 #  工作人员表
 class matchmaker(models.Model):
@@ -92,8 +120,8 @@ class friends(models.Model):
 #用户动态表
 class userdynamic(models.Model):
     time = models.DateField(verbose_name='发表时间')#发表时间
-    text= models.TextField(max_length=12,verbose_name='发表内容')#发表内容
-    img = models.CharField(max_length=20,verbose_name='图片')#图片
+    text= models.TextField(max_length=200,verbose_name='发表内容')#发表内容
+    img =models.ImageField(upload_to='img',null=True)#图片
     userid = models.ForeignKey("user",on_delete=models.CASCADE,verbose_name='用户号')
 
     def __int__(self):

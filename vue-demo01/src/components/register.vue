@@ -1,25 +1,25 @@
 <template>
 
   <el-container>
-    <el-header class="top_img"><img src="" alt=""></el-header>
+    <el-header class="top_img" style="height: 90px;"><img src="//images.jiayuan.com/w4/wap/i/gift/ximg/20200115/1579079608383.png" alt="顶部图片"></el-header>
     <el-container>
-      <el-aside class="side_img"><img src="" alt=""></el-aside>
+      <el-aside class="side_img"><img src="" alt="侧面图片"></el-aside>
       <el-main class="main">
         <el-card class="box-card">
-          <el-form label-position="right" :model="form" :rules="rules"  ref="form">
+          <el-form :label-position="right" :model="form" :rules="rules"  ref="form" label-width="100px">
             <!-- 昵称 -->
-            <el-form-item label="称呼：" prop="username">
+            <el-form-item label="称呼:" prop="username">
                 <el-tooltip class="item" effect="light" content="为自己起个好听的名字吧" placement="bottom-start">
                     <el-input v-model="form.username"  class="form"></el-input>
                 </el-tooltip>
             </el-form-item>
-            <el-form-item label="电话：" prop="phone">
+            <el-form-item label="电话:" prop="phone">
               <el-input v-model.number="form.phone" class="form"></el-input>
             </el-form-item>
             <!-- <el-form-item label="微信：" prop="phone">
               <el-input v-model="tele"></el-input>
             </el-form-item> -->
-            <el-form-item label="密码：" prop="password">
+            <el-form-item label="密码:" prop="password">
                 <el-tooltip class="item" effect="light" content="密码为6位字符" placement="bottom-start">
                     <el-input  class="form" type="password" v-model="form.password" autocomplete="off"></el-input>
                 </el-tooltip>
@@ -29,7 +29,7 @@
             </el-form-item>
 
               <!-- 生日 -->
-              <el-form-item label="出生日期：" prop="">
+              <el-form-item label="出生日期:" prop="">
                   <el-date-picker
                     v-model="form.value1"
                     type="date"
@@ -38,13 +38,13 @@
               </el-form-item>
 
              <!-- 性别 -->
-             <el-form-item label="我是：" class="formsex">
+             <el-form-item label="我是:">
                 <el-radio v-model="form.radio" label="男">男</el-radio>
                 <el-radio v-model="form.radio" label="女">女</el-radio>
             </el-form-item>
 
             <!-- 所在地 -->
-            <el-form-item label="所在地：">
+            <el-form-item label="所在地:">
                 <el-cascader
                 v-model="form.value"
                 :options="options"
@@ -54,14 +54,14 @@
             </el-form-item>
             
             <!-- 婚配情况 -->
-            <el-form-item label="婚姻情况：" class="">
+            <el-form-item label="婚姻情况:" class="">
                 <el-radio v-model="form.radiotype" label="未婚">未婚</el-radio>
                 <el-radio v-model="form.radiotype" label="离异">未婚</el-radio>
                 <el-radio v-model="form.radiotype" label="丧偶">未婚</el-radio>
             </el-form-item>
 
 
-            <el-form-item label="邮箱：" prop="email">
+            <el-form-item label="邮箱:" prop="email">
                 <el-input v-model="form.email" class="form" type="email"></el-input>
                 <el-button type="primary" plain   @click="check">发送验证信息</el-button>
             </el-form-item>
@@ -313,9 +313,7 @@
 
 <style lang="less" scoped>
     .top_img {
-        width: 100%;
-        height: 15%;
-        background-color: brown;
+        padding-left: 123px;
     }
     
     .side_img {
@@ -328,9 +326,9 @@
     
     .main {
         position: absolute;
-        left: 35%;
+        left: 34%;
         background-color: #eeee;
-        width: 700px;
+        width: 705px;
         height: 100%;
     }
     
@@ -352,9 +350,5 @@
     
     .item {
         margin: 4px;
-    }
-    
-    .formsex {
-        margin-left: 30px;
     }
 </style>
