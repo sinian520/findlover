@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <el-container>
-            <el-aside width="300px">Aside</el-aside>
+            <el-aside width="300px"></el-aside>
             <el-main>
                 <el-row>
                     <el-col :span="12"><div class="grid-content bg-purple">
@@ -64,7 +64,7 @@
                                 <el-form-item label="职业:">
                                     <el-input v-model="form.work""></el-input>
                                 </el-form-item>
-                                <el-form-item label="月薪(千元):">
+                                <el-form-item label="月薪(元):">
                                   <el-input  v-model="form.money"></el-input>
                                 </el-form-item>
                                
@@ -356,6 +356,8 @@
             // 上传照片
             handleSuccess(response, file, fileList) {
                 console.log(response);
+                console.log(file);
+                console.log(fileList);
                 this.$message.success("上传成功");
             },
             handleError() {

@@ -17,15 +17,15 @@
                 <span class="span1">优质会员</span>
                 <el-divider direction="vertical"></el-divider>
                 <span class="small">优先推荐可靠度更高更值得信赖</span>
-                <el-button style="float: right; padding: 7px 15px;color:#fff" type="text">换一批>></el-button>
+                <el-button style="float: right; padding: 7px 15px;color:#fff" type="text" @click="vipchange">换一批>></el-button>
             </div>
             <div id="box">
                     <ul>
-                        <li v-for="v in 10">
-                            <img src="" alt="">
-                            <h4></h4>
-                            <el-button type="danger" size="mini">危险按钮</el-button>
-                            <el-button type="danger" size="mini">危险按钮</el-button>
+                        <li v-for="v in vipusershow"  :key="v.id">
+                            <img :src="v.photo" alt="">
+                            <span>{{v.age}}</span>
+                            <span>{{v.marriage}}</span>
+                            <el-button type="danger" size="mini" style="margin-left: 10px;" @click="friend(v.id)">加朋友</el-button>
                         </li>
                     </ul>
             </div>
@@ -35,11 +35,11 @@
                 <span class="small">诚挚帮助寻找符合心意的他/她</span>
                 <el-button style="float: right; padding: 7px 15px;color:#fff" type="text">更多>></el-button>
             </div>
-            <div id="box">
+            <div id="box1">
                 <div class="find">
                     <span style="color: #333;">我要找：</span>
                     
-                    <el-select v-model="age" placeholder="年龄范围">
+                    <el-select v-model="age" placeholder="年龄范围--不限--">
                         <el-option
                           v-for="item in ageoptions"
                           :key="item.value"
@@ -52,9 +52,9 @@
                     :options="options"
                     @change="handleChange"
                     style="width: 300px;"
-                    placeholder="地域"
+                    placeholder="地域--不限--"
                     ></el-cascader>
-                    <el-select v-model="character" placeholder="性格">
+                    <el-select v-model="character" placeholder="性格--不限--">
                         <el-option
                           v-for="item in coptions"
                           :key="item.value"
@@ -62,15 +62,17 @@
                           :value="item.value">
                         </el-option>
                     </el-select>
-                    <el-button type="danger" icon="el-icon-search" plain>搜索</el-button>
+                    <el-button type="danger" icon="el-icon-search" plain  @click="userfilter">搜索</el-button>
                 </div>
                 <el-divider></el-divider>                  
                 <ul>
-                    <li v-for="v in 10">
-                        <img src="" alt="">
-                        <h4></h4>
-                        <el-button type="danger" size="mini">加朋友</el-button>
-                        <el-button type="danger" size="mini">送玫瑰</el-button>
+                    <li v-for="v in allusershow"  :key="v.id">
+                        <img :src="v.photo" alt="用户照片">
+                        <div class="subject">{{v.age}}岁,{{v.live}},{{v.marriage}},{{v.profession}}<br>{{v.education}},
+                            {{v.charater}}
+                        </div>   
+                        <el-button type="danger" style="margin-left: 10px;" size="mini" @click="friend(v.id)">加朋友</el-button>
+                        <el-button type="danger" size="mini"  @click="send(v.id)">送玫瑰</el-button>
                     </li>
                 </ul>
             </div>
@@ -88,16 +90,17 @@
                 //轮播图
                 img: [{
                         id: 0,
-                        idView: require('../assets/img/1.jpg')
+                        idView: require('../assets/img/banner-vip-list.jpg')
+
                     }, {
                         id: 1,
-                        idView: require('../assets/img/2.png')
+                        idView: require('../assets/img/long1.jpg')
                     }, {
                         id: 2,
-                        idView: require('../assets/img/banner-vip-list.jpg')
+                        idView: require('../assets/img/long4.jpg')
                     }, {
                         id: 3,
-                        idView: require('../assets/img/home1.jpg')
+                        idView: require('../assets/img/true.jpg')
                     }
 
                 ],
@@ -117,13 +120,13 @@
                     value: '35~40',
                     label: '35~40岁'
                 }, {
-                    value: '40-45',
-                    label: '40-45岁'
+                    value: '40~45',
+                    label: '40~45岁'
                 }, {
-                    value: '45-50',
+                    value: '45~50',
                     label: '45~50岁'
                 }, {
-                    value: '50-200',
+                    value: '50~200',
                     label: '50岁以上'
                 }],
                 located: "",
@@ -207,12 +210,144 @@
                     value: '靠谱',
                     label: '靠谱'
                 }],
+                //后台用户
+                alluser: [],
+                vipuser: [],
+                // 显示用户
+                allusershow: [],
+                vipusershow: [],
+                //登录用户
+                myuser: '',
             };
         },
-        created() {},
+        created() {
+            this.getPersonal()
+        },
         methods: {
+            // 所在地
             handleChange(value) {
                 this.located = value;
+            },
+            //vip换一批
+            vipchange() {
+                var arr = this.vipuser;
+
+                var result = [];
+
+                var ranNum = 10;
+
+                for (var i = 0; i < ranNum; i++) {
+
+                    var ran = Math.floor(Math.random() * (arr.length - i));
+
+                    result.push(arr[ran]);
+
+                    arr[ran] = arr[arr.length - i - 1];
+
+                };
+                this.vipusershow = result;
+                console.log(this.vipusershow);
+            },
+            async getPersonal() {
+                var user = window.sessionStorage.getItem("user");
+                let param = new URLSearchParams()
+                this.myuser = user
+                param.append('user', user)
+                console.log(user);
+                const {
+                    data: res
+                } = await this.$http.post('HomeUser/', param)
+                if (res.code == 1002)
+                    return this.$message.error(res.msg)
+
+                this.vipuser = JSON.parse(res.vip);
+                this.alluser = JSON.parse(res.ordinary);
+                if (this.vipuser.length == 0) {
+                    this.$message.info("暂无会员用户")
+                }
+                if (this.alluser.length == 0) {
+                    this.$message.info("暂无用户")
+                }
+                console.log(this.vipuser);
+                console.log(this.alluser);
+                // 显示会员
+                if (this.vipuser.length > 10)
+                    this.vipusershow = this.vipuser.slice(0, 10)
+                else
+                    this.vipusershow = this.vipuser
+                    // 显用户
+                if (this.alluser.length > 10)
+                    this.allusershow = this.alluser.slice(0, 10)
+                else
+                    this.allusershow = this.alluser
+            },
+            // 添加朋友
+            async friend(id) {
+                var param = new URLSearchParams();
+                param.append('userid', this.myuser);
+                param.append('friendid', id);
+                const {
+                    data: res
+                } = await this.$http.post('AddFriend/', param)
+                if (res.code == 1002 || res.code == 1001)
+                    return this.$message.error(res.msg)
+                else {
+                    this.$message.success(res.msg)
+                }
+            },
+            // 送玫瑰
+            async send(id) {
+                var param = new URLSearchParams();
+                param.append('id', id);
+                const {
+                    data: res
+                } = await this.$http.post('AddUserCount/', param)
+                if (res.code == 1002 || res.code == 1001)
+                    return this.$message.error(res.msg)
+                else {
+                    //前端
+                    this.$alert('已帮你送去玫瑰表达你的喜爱之情！', {
+                        confirmButtonText: '确定',
+                    });
+
+                }
+
+            },
+            //查询
+            userfilter() {
+                console.log(this.alluser)
+                console.log(this.located)
+                console.log(this.character)
+                console.log(this.age)
+                var low = this.age.split("~")[0]
+                var height = this.age.split("~")[1]
+
+
+                let a = this.alluser.filter((obj, index) => {
+                    //查找包含关键字的
+                    if (this.age && this.character && this.located) {
+                        return obj.age >= low && obj.age <= height && obj.character.includes(this.character) && obj.live.includes(this.located)
+                    } else if (this.age && this.character) {
+                        return obj.age >= low && obj.age <= height && obj.character.includes(this.character)
+                    } else if (this.character && this.located) {
+                        return obj.character.includes(this.character) && obj.live.includes(this.located)
+                    } else if (this.age && this.located) {
+                        return obj.age >= low && obj.age <= height && obj.live.includes(this.located)
+                    } else if (this.age) {
+                        return obj.age >= low && obj.age <= height
+                    } else if (this.character) {
+                        return obj.character.includes(this.character)
+                    } else if (this.located) {
+                        return obj.live.includes(this.located)
+                    } else
+                        return;
+                })
+
+                this.allusershow = a;
+                if (this.allusershow.length == 0) {
+                    this.allusershow = this.newactive
+                    this.$message.info("没有找到符合条件的活动")
+                }
             },
         }
     }
@@ -230,7 +365,6 @@
     
     .people {
         width: 1120px;
-        border: #960404 solid 1px;
         margin-left: 50px;
     }
     
@@ -268,23 +402,58 @@
     }
     
     #box li {
-        padding: 15px;
         list-style: none;
         border: 1px solid #eee;
         margin-left: 20px;
         margin-top: 15px;
-        width: 150px;
-        height: 200px;
+        width: 180px;
+        height: 230px;
     }
     
     #box img {
-        width: 150px;
-        height: 170px;
+        width: 180px;
+        height: 190px;
+    }
+    
+    #box span {
+        margin-left: 10px;
+    }
+    
+    #box1 ul {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 0px;
+    }
+    
+    #box1 li {
+        list-style: none;
+        border: 1px solid #eee;
+        margin-left: 20px;
+        margin-top: 15px;
+        width: 180px;
+        height: 300px;
+    }
+    
+    #box1 img {
+        width: 180px;
+        height: 200px;
     }
     
     .find {
         display: block;
         margin-left: 80px;
         margin-top: 20px;
+    }
+    
+    .subject {
+        font-size: 14px;
+        padding: 10px;
+        width: 170px;
+        height: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        /*强制不换行*/
+        /*显示省略号 */
     }
 </style>

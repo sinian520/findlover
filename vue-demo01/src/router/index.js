@@ -8,8 +8,14 @@ import home from '../components/home.vue'
 import vippage from '../components/vippage.vue'
 import friends from '../components/friends.vue'
 import active from '../components/active.vue'
+import matchactive from '../components/matchactive.vue'
+import activeapply from '../components/activeapply.vue'
 import helppage from '../components/helppage.vue'
 import showtime from '../components/showtime.vue'
+import showupdate from '../components/showupdate.vue'
+import text from '../components/text.vue'
+import psychological from '../components/psychological.vue'
+
 
 Vue.use(Router)
 
@@ -50,12 +56,30 @@ const router = new Router({
                     path: '/active',
                     component: active
                 }, {
+                    path: '/activeapply',
+                    component: activeapply
+                },
+                {
+                    path: '/matchactive',
+                    component: matchactive
+                },
+                {
                     path: '/helppage',
                     component: helppage
                 },
                 {
                     path: '/showtime',
                     component: showtime
+                }, {
+                    path: '/showupdate',
+                    component: showupdate
+                }, {
+                    path: '/text',
+                    name: 'textpage',
+                    component: text
+                }, {
+                    path: '/psychological',
+                    component: psychological
                 }
             ]
         },

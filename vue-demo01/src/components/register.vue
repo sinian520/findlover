@@ -3,7 +3,7 @@
   <el-container>
     <el-header class="top_img" style="height: 90px;"><img src="//images.jiayuan.com/w4/wap/i/gift/ximg/20200115/1579079608383.png" alt="顶部图片"></el-header>
     <el-container>
-      <el-aside class="side_img"><img src="" alt="侧面图片"></el-aside>
+      <el-aside class="side_img"><img src="https://i01piccdn.sogoucdn.com/90f1e4317ef80e4a" alt="侧面图片"></el-aside>
       <el-main class="main">
         <el-card class="box-card">
           <el-form :label-position="right" :model="form" :rules="rules"  ref="form" label-width="100px">
@@ -105,7 +105,7 @@
             };
             var validateemail = (rule, value, callback) => {
                 if (!value) {
-                    callback();
+                    callback(new Error('请输入邮箱'));
                 } else {
                     const reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
                     const email = reg.test(value);
@@ -321,7 +321,11 @@
         left: 10%;
         width: 200px;
         height: 100%;
-        background-color: rgba(35, 192, 113, 0.933);
+    }
+    
+    .side_img img {
+        width: 200px;
+        height: 100%;
     }
     
     .main {

@@ -13,48 +13,39 @@
                         <el-menu-item index="home">首页</el-menu-item>
                         <el-menu-item index="friends">好友管理</el-menu-item>
                         <el-menu-item index="vippage">会员中心</el-menu-item>
-                        <el-menu-item index="4">恋爱展</el-menu-item>
-                        <el-menu-item index="5">心里测试</el-menu-item>
-                        <el-menu-item index="6">线下活动</el-menu-item>
-                        <el-menu-item index="7">情感求助</el-menu-item>
-                        <el-menu-item index="">红娘服务</el-menu-item>
-                        <!-- 头像区域 -->
-        
-        
-                        <el-popover placement="top-start" trigger="hover" content="点击完善个人信息呦" class="avater_box">
-                                <el-button slot="reference" type="text" @click="information">
-                                    <el-avatar :src="this.user.img"></el-avatar>
-                                </el-button>
-                        </el-popover>
-        
-        
-                        <el-button @click="userexit" type="text" class="exit">退出</el-button>
-                    </el-menu>
-                </div>
-            </el-header>
-            <el-main>
-                <!-- 路由占位符 -->
-                <router-view></router-view>
-                
-            </el-main>
-            <div class="footer">
-                <p>关于一缘 |
-                    商务合作 |
-                    版权所有 |     
-                    联系我们 |
-                    诚聘人才 |
-                    寻求帮助
-                    <br>
-                    版权所有解释权归本人所有
-                    123005895060 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                    
-                    违反和不良信息举报电话 18846562389
-                </p>
+                        <el-menu-item index="showtime">恋爱展</el-menu-item>
+                        <el-menu-item index="psychological">心里测试</el-menu-item>
+                        <el-menu-item index="active">线下活动</el-menu-item>
+                        <el-menu-item index="helppage">情感求助</el-menu-item>
+                        <el-menu-item index="matchactive">红娘服务</el-menu-item>
+<!-- 头像区域 -->
 
-            </div>
-        </el-container>
-        
-    </div>
+
+<el-popover placement="top-start" trigger="hover" content="点击完善个人信息呦" class="avater_box">
+    <el-button slot="reference" type="text" @click="information">
+        <el-avatar :src="this.user.img"></el-avatar>
+    </el-button>
+</el-popover>
+
+
+<el-button @click="userexit" type="text" class="exit">退出</el-button>
+</el-menu>
+</div>
+</el-header>
+<el-main>
+    <!-- 路由占位符 -->
+    <router-view></router-view>
+
+</el-main>
+<div class="footer">
+    <p>关于一缘 | 商务合作 | 版权所有 | 联系我们 | 诚聘人才 | 寻求帮助
+        <br> 版权所有解释权归本人所有 123005895060 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 违反和不良信息举报电话 18846562389
+    </p>
+
+</div>
+</el-container>
+
+</div>
 
 </template>
 
@@ -120,7 +111,6 @@
     }
     
     .el-main {
-        border: 1px solid;
         padding: 0;
         width: 100%;
     }

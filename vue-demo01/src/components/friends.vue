@@ -4,7 +4,7 @@
             <el-aside width="300px">
                <div v-for="(item,index) in friendlist" :key="item.id" :class="{listback :item.choose} "class="list" @click="choose(item.emile)">  <!-- @click="choose(user.email)" -->
                     <div class="listlo">
-                        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                        <el-avatar :src="item.photo"></el-avatar>
                     </div>
                     <div class="listlo">
                         <span class="dete">
@@ -112,7 +112,7 @@
                     data: res
                 } = await this.$http.post('GetFriends/', param)
                 if (res.code == 1002 || res.code == 1001)
-                    return this.$maessage.error(res.msg)
+                    return this.$message.error(res.msg)
                 else
                     this.friendlist = JSON.parse(res.list); //字符串转json的函数
 
@@ -289,7 +289,7 @@
         width: 100%;
         height: 100%;
         background-color: #FFF;
-        color: #D3DCE6;
+        color: #606266;
         text-align: center;
         line-height: 400px;
     }

@@ -59,8 +59,8 @@ ROOT_URLCONF = 'marry.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 'DIRS': [os.path.join(BASE_DIR,'templates')],
-        'DIRS': [os.path.join(BASE_DIR,'vue-demo01/dist')],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        # 'DIRS': [os.path.join(BASE_DIR,'vue-demo01/dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'marry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "marry",
+        'NAME': "marry1",
         'USER':"root",
         'PASSWORD':"hhhheeq",
         'HOST':"localhost",#连接本机数据库
@@ -127,15 +127,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = 'vue-demo01/dist/static/'
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'vue-demo01/dist/static')
-    # os.path.join(BASE_DIR,'static')
-]
-# STATIC_URL = '/static/'
+# STATIC_URL = 'vue-demo01/dist/static/'
 # STATICFILES_DIRS=[
-#     os.path.join(BASE_DIR,'static')
+#     os.path.join(BASE_DIR,'vue-demo01/dist/static')
+#     # os.path.join(BASE_DIR,'static')
 # ]
+STATIC_URL = '/static/'
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static')
+]
 
 # 允许所有域名跨域(优先选择)
 CORS_ORIGIN_ALLOW_ALL = True   # 这里可以设置白名单
@@ -150,7 +150,7 @@ EMAIL_USE_TLS = True # 这里必须是 True，否则发送不成功
 EMAIL_FROM = '1755457338@qq.com'  # 你的 QQ 账号
 
 # 配置上传文件存放的路径
-MEDIA_URL = '/static/'
+MEDIA_URL = '/media/'
 # 指定的文件存放的根目录，是一个字符串路径
 #设置静态文件路径为主目录下的media文件夹
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static').replace("\\","/")    
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace("\\","/")    
